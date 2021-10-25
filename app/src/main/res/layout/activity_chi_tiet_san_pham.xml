@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".activity.ChiTietSanPhamActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarChiTietSanPham"
+        android:background="@color/primary_color"
+        app:titleTextColor="@color/white_text"
+        app:title="Chi Tiết Sản Phẩm"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+    </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_margin="5dp"
+            android:id="@+id/imageViewLaptopChiTiet"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/primary_text"
+                android:text="Tên sản phẩm"
+                android:textSize="20sp"
+                android:id="@+id/textViewTenLaptopChiTiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:id="@+id/textViewGiaLaptopChiTiet"
+                android:layout_marginTop="5dp"
+                android:textSize="18sp"
+                android:textColor="@color/price_color"
+                android:text="Gía sản phẩm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:id="@+id/btnThemGioHangChiTiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thêm giỏ hàng">
+            </androidx.appcompat.widget.AppCompatButton>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginTop="20dp"
+            android:textColor="@color/primary_text"
+            android:textSize="20sp"
+            android:text="Mô Tả Sản Phẩm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="15sp"
+                android:paddingBottom="5dp"
+                android:id="@+id/textViewMoTaLaptopChiTiet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+       </ScrollView>
+    </LinearLayout>
+</LinearLayout>

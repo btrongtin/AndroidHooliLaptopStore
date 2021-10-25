@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:weightSum="10"
+    android:orientation="horizontal"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:id="@+id/imageViewDongGioHang"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:orientation="vertical"
+        android:layout_weight="7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="20sp"
+            android:textColor="#ff00"
+            android:text="Tên Gio Hàng"
+            android:id="@+id/textViewTenDongGioHang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="16sp"
+            android:layout_marginTop="5dp"
+            android:textColor="#0062ff"
+            android:text="Gía Giỏ hàng"
+            android:id="@+id/textViewGiaDongGioHang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatButton
+                android:focusable="false"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:text="-"
+                android:id="@+id/btnMinusDongGioHang"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:focusable="false"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:text="1"
+                android:id="@+id/btnValueDongGioHang"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_marginLeft="10dp"
+                android:focusable="false"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:text="+"
+                android:id="@+id/btnPlusDongGioHang"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
