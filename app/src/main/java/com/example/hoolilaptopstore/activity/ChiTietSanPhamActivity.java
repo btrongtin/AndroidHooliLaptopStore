@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.hoolilaptopstore.R;
 import com.example.hoolilaptopstore.model.GioHang;
 import com.example.hoolilaptopstore.model.SanPham;
+import com.example.hoolilaptopstore.util.Ultilities;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -59,30 +60,43 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         btnThemGioHang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //nếu mảng giỏ hàng đã có phần tử
-                if(MainActivity.gioHangArrayList.size() > 0){
-                    boolean exist = false;
-                    for(int i=0; i<MainActivity.gioHangArrayList.size(); i++){
-                        //nếu sp mới thêm vào đã có trong mảng => cập nhật lại số lượng
-                        if(MainActivity.gioHangArrayList.get(i).getIdSP() == sanPham.getId()){
-                            MainActivity.gioHangArrayList.get(i).setSoLuongSP(MainActivity.gioHangArrayList.get(i).getSoLuongSP()+1);
-                            MainActivity.gioHangArrayList.get(i).setGiaSP((long) sanPham.getGia() * MainActivity.gioHangArrayList.get(i).getSoLuongSP());
-                            exist = true;
+                if(sanPham.getSoLuong() > 0){
+
+                    //nếu mảng giỏ hàng đã có phần tử
+                    if(MainActivity.gioHangArrayList.size() > 0){
+                        boolean exist = false;
+                        for(int i=0; i<MainActivity.gioHangArrayList.size(); i++){
+
+                            //nếu sp mới thêm vào đã có trong mảng => ktra số lượng tồn kho rồi cập nhật lại số lượng giỏ hàng
+                            if(MainActivity.gioHangArrayList.get(i).getIdSP() == sanPham.getId()){
+                                if(sanPham.getSoLuong() > MainActivity.gioHangArrayList.get(i).getSoLuongSP()){ //số lượng sp tồn kho phải lớn hơn số lượng sp muốn mua
+                                    MainActivity.gioHangArrayList.get(i).setSoLuongSP(MainActivity.gioHangArrayList.get(i).getSoLuongSP()+1);
+                                    MainActivity.gioHangArrayList.get(i).setGiaSP((long) sanPham.getGia() * MainActivity.gioHangArrayList.get(i).getSoLuongSP());
+                                    exist = true;
+                                }
+                                else{
+                                    Ultilities.ShowToast_short(getApplicationContext(), "Số lượng giỏ hàng đã bằng số lượng sản phẩm tồn kho");
+                                    return;
+                                }
+                            }
+
+
                         }
-
-
+                        //lặp hết giỏ hàng mà exist=false => sp mới thêm vào chưa có trong mảng => thêm sp mới
+                        if(!exist){
+                            MainActivity.gioHangArrayList.add(new GioHang(sanPham.getId(), sanPham.getTen(),
+                                    sanPham.getGia(), sanPham.getHinhAnh(), 1, sanPham.getSoLuong()));
+                        }
                     }
-                    //lặp hết giỏ hàng mà exist=false => sp mới thêm vào chưa có trong mảng => thêm sp mới
-                    if(!exist){
+                    //nếu mảng giỏ hàng chưa có phần tử
+                    else{
                         MainActivity.gioHangArrayList.add(new GioHang(sanPham.getId(), sanPham.getTen(),
-                                sanPham.getGia(), sanPham.getHinhAnh(), 1));
+                                sanPham.getGia(), sanPham.getHinhAnh(), 1, sanPham.getSoLuong()));
                     }
                 }
-                //nếu mảng giỏ hàng chưa có phần tử
-                else{
-                    MainActivity.gioHangArrayList.add(new GioHang(sanPham.getId(), sanPham.getTen(),
-                            sanPham.getGia(), sanPham.getHinhAnh(), 1));
-                }
+                else
+                    Ultilities.ShowToast_short(getApplicationContext(), "Xin lỗi, sản phẩm đã hết số lượng trong kho");
+
             }
         });
     }

@@ -20,6 +20,7 @@ import com.example.hoolilaptopstore.R;
 import com.example.hoolilaptopstore.model.Account;
 import com.example.hoolilaptopstore.util.CheckConnection;
 import com.example.hoolilaptopstore.util.Server;
+import com.example.hoolilaptopstore.util.Ultilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +31,8 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
     EditText edtUsername, edtPassword;
     Button btnLogin, btnRegister;
+    int POSITION_CODE = -1;
+    Account loginAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,11 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(edtUsername.getText().toString().isEmpty() || edtPassword.getText().toString().isEmpty()){
+                    Ultilities.ShowToast_short(getApplicationContext(), "Mời bạn nhập tài khoản và mật khẩu!");
+                    return;
+                }
+
                 RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                 String duongDan = Server.duongDanLogin;
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, duongDan, new Response.Listener<String>() {
@@ -60,21 +68,28 @@ public class LoginActivity extends AppCompatActivity {
                             diaChi = jsonObject.getString("DiaChi");
                             soDienThoai = jsonObject.getString("SoDienThoai");
 
-                            Account loginAccount = new Account(id, hoTen, tenDangNhap, diaChi, soDienThoai);
+                            loginAccount = new Account(id, hoTen, tenDangNhap, diaChi, soDienThoai);
 
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent;
+                            if(POSITION_CODE == 113){
+                                intent = new Intent(getApplicationContext(), ThongTinDonHangActivity.class);
+                            }
+                            else{
+                                intent = new Intent(getApplicationContext(), MainActivity.class);
+                            }
                             intent.putExtra("loginAccount", loginAccount);
                             startActivity(intent);
+
                         } catch (JSONException e) {
                             //Khi Jsonobject không parse được => sai tên dn or mk
-                            CheckConnection.ShowToast_short(getApplicationContext(),"Sai tên đăng nhập hoặc mật khẩu!");
+                            Ultilities.ShowToast_short(getApplicationContext(),"Sai tên đăng nhập hoặc mật khẩu!");
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //Khi server bị lỗi
-                        CheckConnection.ShowToast_short(getApplicationContext(), error.toString());
+                        Ultilities.ShowToast_short(getApplicationContext(), error.toString());
                     }
                 }){
                     @Nullable
@@ -107,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.editTextDNPassword);
         btnLogin = findViewById(R.id.btnDNLogin);
         btnRegister = findViewById(R.id.btnDNRegister);
+        POSITION_CODE = getIntent().getIntExtra("POSITION_CODE", -1);
     }
 
 

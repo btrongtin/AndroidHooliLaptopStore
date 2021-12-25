@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HooliLaptopStore">
         <activity
+            android:name=".SearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.ThongTinCuaHangActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.DatHangThanhCongActivity"
+            android:exported="true" />
+        <activity
             android:name=".activity.RegisterActivity"
             android:exported="true" />
         <activity
@@ -22,9 +31,6 @@
             android:exported="true" />
         <activity
             android:name=".activity.ChiTietSanPhamActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activity.AboutActivity"
             android:exported="true" />
         <activity
             android:name=".activity.LoginActivity"

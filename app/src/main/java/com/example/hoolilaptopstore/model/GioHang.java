@@ -5,14 +5,24 @@ public class GioHang {
     private String tenSP;
     private long giaSP;
     private String hinhAnhSP;
-    private int soLuongSP;
+    private int soLuongSP; // số lượng sp của chi tiết sp. vd laptop A, mua 2 cái =? soluongsp = 2
+    private int soLuongTon; //số lượng sp đó còn trong kho
 
-    public GioHang(int idSP, String tenSP, long giaSP, String hinhAnhSP, int soLuongSP) {
+    public GioHang(int idSP, String tenSP, long giaSP, String hinhAnhSP, int soLuongSP, int soLuongTon) {
         this.idSP = idSP;
         this.tenSP = tenSP;
         this.giaSP = giaSP;
         this.hinhAnhSP = hinhAnhSP;
         this.soLuongSP = soLuongSP;
+        this.soLuongTon = soLuongTon;
+    }
+
+    public int getSoLuongTon() {
+        return soLuongTon;
+    }
+
+    public void setSoLuongTon(int soLuongTon) {
+        this.soLuongTon = soLuongTon;
     }
 
     public int getIdSP() {

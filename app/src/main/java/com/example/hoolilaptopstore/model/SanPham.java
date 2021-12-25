@@ -9,14 +9,25 @@ public class SanPham implements Serializable {
     private String hinhAnh;
     private String moTa;
     private int idThuongHieu;
+    private int soLuong;
 
-    public SanPham(int id, String ten, int gia, String hinhAnh, String moTa, int idThuongHieu) {
+    public SanPham(int id, String ten, int gia, String hinhAnh, String moTa, int idThuongHieu, int soLuong) {
         this.id = id;
         this.ten = ten;
         this.gia = gia;
         this.hinhAnh = hinhAnh;
         this.moTa = moTa;
         this.idThuongHieu = idThuongHieu;
+        this.soLuong = soLuong;
+    }
+
+
+    public int getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
     }
 
     public int getId() {

@@ -79,7 +79,7 @@ public class GioHangAdapter extends BaseAdapter {
         viewHolder.btnValues.setText(gioHang.getSoLuongSP()+"");
 
         int sl= Integer.parseInt(viewHolder.btnValues.getText().toString());
-        if (sl>=10) {
+        if (sl>= gioHang.getSoLuongTon()) {
             viewHolder.btnPlus.setVisibility(View.INVISIBLE);
 
         }else if(sl<=1){
@@ -107,7 +107,7 @@ public class GioHangAdapter extends BaseAdapter {
                 GioHangActivity.tinhTien();
 
 
-                if (slmoinhat > 9) {
+                if (slmoinhat > gioHang.getSoLuongTon()-1) { //tại vì sau khi click mới có được sl mới nhất
                     finalViewHolder.btnMinus.setVisibility(View.VISIBLE);
                     finalViewHolder.btnPlus.setVisibility(View.INVISIBLE);
                     finalViewHolder.btnValues.setText(String.valueOf(slmoinhat));
@@ -132,7 +132,7 @@ public class GioHangAdapter extends BaseAdapter {
                 GioHangActivity.tinhTien();
 
 
-                if(slmoinhat<2){
+                if(slmoinhat< gioHang.getSoLuongTon()+1){
                     finalViewHolder.btnMinus.setVisibility(View.INVISIBLE);
                     finalViewHolder.btnPlus.setVisibility(View.VISIBLE);
                     finalViewHolder.btnValues.setText(String.valueOf(slmoinhat));

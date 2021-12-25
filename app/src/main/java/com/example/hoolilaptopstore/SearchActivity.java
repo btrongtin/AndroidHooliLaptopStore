@@ -1,4 +1,4 @@
-package com.example.hoolilaptopstore.activity;
+package com.example.hoolilaptopstore;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,8 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,7 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hoolilaptopstore.R;
+import com.example.hoolilaptopstore.activity.ChiTietSanPhamActivity;
+import com.example.hoolilaptopstore.activity.GioHangActivity;
+import com.example.hoolilaptopstore.activity.LaptopTheoThuongHieuActivity;
 import com.example.hoolilaptopstore.adapter.LaptopTheoThuongHieuAdapter;
 import com.example.hoolilaptopstore.model.SanPham;
 import com.example.hoolilaptopstore.model.ThuongHieu;
@@ -38,64 +38,48 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LaptopTheoThuongHieuActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
     Toolbar toolbar;
     ListView listViewSP;
     LaptopTheoThuongHieuAdapter laptopTheoThuongHieuAdapter;
     ArrayList<SanPham> sanPhamArrayList;
-    //thương hiệu nhận từ main activity
-    ThuongHieu thuongHieuNhan = null;
-    int page = 1;
+    //SearchQuery nhận từ main activity
+    String searchInput = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_laptop_theo_thuong_hieu);
+        setContentView(R.layout.activity_search);
 
         anhXa();
 
         if(CheckConnection.haveNetworkConnection(getApplicationContext())){
-            getThuongHieuNhan();
+            getSearchInput();
             ActionToolbar();
-            getData(page);
+            getDataSearch();
             actionChooseLaptop();
+
         }
         else{
             Ultilities.ShowToast_short(getApplicationContext(), "Bạn hãy kiểm tra lại kết nối");
             finish();
         }
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menuGioHang:
-                Intent intent = new Intent(getApplicationContext(), GioHangActivity.class);
-                startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void actionChooseLaptop() {
         listViewSP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(LaptopTheoThuongHieuActivity.this, ChiTietSanPhamActivity.class);
+                Intent intent = new Intent(SearchActivity.this, ChiTietSanPhamActivity.class);
                 intent.putExtra("Laptop", sanPhamArrayList.get(i));
                 startActivity(intent);
             }
         });
     }
 
-    private void getData(int page) {
+
+    private void getDataSearch() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String duongDan = Server.duongDanLaptopTheoThuongHieu + page;
+        String duongDan = Server.duongDanSearch;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, duongDan, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -138,11 +122,27 @@ public class LaptopTheoThuongHieuActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> param = new HashMap<String, String>();
-                param.put("idThuongHieu", String.valueOf(thuongHieuNhan.getId()));
+                param.put("searchInput", searchInput);
                 return param;
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menuGioHang:
+                Intent intent = new Intent(getApplicationContext(), GioHangActivity.class);
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void ActionToolbar() {
@@ -156,13 +156,13 @@ public class LaptopTheoThuongHieuActivity extends AppCompatActivity {
         });
     }
 
-    private void getThuongHieuNhan() {
-        thuongHieuNhan = (ThuongHieu) getIntent().getSerializableExtra("ThuongHieu");
+    private void getSearchInput() {
+        searchInput = (String) getIntent().getSerializableExtra("searchInput");
     }
 
     private void anhXa() {
-        toolbar = findViewById(R.id.toolbarLaptopTheoThuongHieu);
-        listViewSP = findViewById(R.id.listViewLaptopTheoThuongHieu);
+        toolbar = findViewById(R.id.toolbarLaptopTheoTimKiem);
+        listViewSP = findViewById(R.id.listViewLaptopTheoTimKiem);
         sanPhamArrayList = new ArrayList<>();
         laptopTheoThuongHieuAdapter = new LaptopTheoThuongHieuAdapter(getApplicationContext(), sanPhamArrayList);
         listViewSP.setAdapter(laptopTheoThuongHieuAdapter);

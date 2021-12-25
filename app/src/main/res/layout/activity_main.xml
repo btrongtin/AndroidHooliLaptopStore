@@ -18,9 +18,29 @@
                 android:id="@+id/toolbar_manhinhchinh"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Trang chính"
                 android:background="@color/primary_color"
                 app:titleTextColor="@color/white_text">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+                    <EditText
+                        android:id="@+id/edtSearch"
+                        android:layout_width="200dp"
+                        android:layout_height="25dp"
+                        android:background="@color/white_text"
+                        android:layout_gravity="center"
+                        android:hint="Type here to search"
+                        />
+                    <ImageView
+                        android:id="@+id/imgSearch"
+                        android:layout_marginStart="5dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/ic_search"/>
+                </LinearLayout>
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -64,12 +84,7 @@
             android:background="@color/light_background"
             app:headerLayout="@layout/navigation_header"
             >
-<!--            <ListView-->
-<!--                android:id="@+id/listview_mannhinhchinh"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
 
-<!--            </ListView>-->
             <ExpandableListView
                 android:layout_marginTop="110dp"
                 android:id="@+id/elv_manHinhChinh"

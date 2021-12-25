@@ -7,12 +7,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -20,12 +22,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hoolilaptopstore.R;
+import com.example.hoolilaptopstore.SearchActivity;
 import com.example.hoolilaptopstore.adapter.NavExpandableListViewAdapter;
 import com.example.hoolilaptopstore.adapter.SanPhamAdapter;
 import com.example.hoolilaptopstore.model.Account;
@@ -35,6 +41,7 @@ import com.example.hoolilaptopstore.model.SanPham;
 import com.example.hoolilaptopstore.model.ThuongHieu;
 import com.example.hoolilaptopstore.util.CheckConnection;
 import com.example.hoolilaptopstore.util.Server;
+import com.example.hoolilaptopstore.util.Ultilities;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +52,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -52,11 +60,13 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerViewManHinhChinh;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
+    EditText edtSearch;
+    ImageView imgSearch;
 
     //Expandable List View
     TextView textViewNavHeader;
     View headerView;
-    Account loginAccount;
+    public static Account loginAccount;
     List<NavItem> headerList;
     HashMap<NavItem, List<ThuongHieu>> listDataChild;
     ExpandableListView navExpandableListView;
@@ -82,14 +92,33 @@ public class MainActivity extends AppCompatActivity {
             getDataNav();
             handleNavClick();
             getDataSPMoiNhat();
+            handleSearch();
 
         }
         else{
-            CheckConnection.ShowToast_short(getApplicationContext(), "Bạn hãy kiểm tra lại đường truyền.");
+            Ultilities.ShowToast_short(getApplicationContext(), "Bạn hãy kiểm tra lại đường truyền.");
             finish();
         }
 
 
+    }
+
+    private void handleSearch() {
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String searchQuery = edtSearch.getText().toString().trim();
+                if(searchQuery.isEmpty() ) {
+                    Ultilities.ShowToast_short(getApplicationContext(), "Mời bạn nhập thông tin cần tìm!");
+                    return;
+                }
+                else{
+                    Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                    intent.putExtra("searchInput", searchQuery);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -103,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menuGioHang:
                 Intent intent = new Intent(getApplicationContext(), GioHangActivity.class);
+
                 startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -137,11 +167,12 @@ public class MainActivity extends AppCompatActivity {
                             drawerLayout.closeDrawer(GravityCompat.START);
                             break;
                         case 3:
-                            Intent intent3 = new Intent(MainActivity.this, AboutActivity.class);
-                            startActivity(intent3);
+                            Intent intent2 = new Intent(MainActivity.this, ThongTinCuaHangActivity.class);
+                            startActivity(intent2);
                             //đóng nav
                             drawerLayout.closeDrawer(GravityCompat.START);
                             break;
+
                     }
                     return false;
                 }
@@ -160,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         else{
-            CheckConnection.ShowToast_short(getApplicationContext(), "Bạn hãy kiểm tra lại kết nối!");
+            Ultilities.ShowToast_short(getApplicationContext(), "Bạn hãy kiểm tra lại kết nối!");
         }
 
     }
@@ -177,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
                     String hinhAnh = "";
                     String moTa = "";
                     int idThuongHieu = 0;
+                    int soLuong = 0;
 
                     for(int i=0; i<response.length(); i++){
                         try {
@@ -187,8 +219,9 @@ public class MainActivity extends AppCompatActivity {
                             hinhAnh = jsonObject.getString("hinhanhsp");
                             moTa = jsonObject.getString("motasp");
                             idThuongHieu = jsonObject.getInt("idThuongHieu");
+                            soLuong = jsonObject.getInt("soLuong");
 
-                            sanPhamArrayList.add(new SanPham(id, tenSP, giaSP, hinhAnh, moTa, idThuongHieu));
+                            sanPhamArrayList.add(new SanPham(id, tenSP, giaSP, hinhAnh, moTa, idThuongHieu, soLuong));
                             sanPhamAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -224,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         headerList.add( new NavItem("Laptop theo thương hiệu", R.drawable.ic_category));
-        headerList.add( new NavItem("Về chúng tôi", R.drawable.ic_about));
+        headerList.add( new NavItem("Thông tin cửa hàng", R.drawable.ic_about));
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Server.duongDanThuongHieu, new Response.Listener<JSONArray>() {
@@ -249,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                CheckConnection.ShowToast_short(getApplicationContext(), error.toString());
+                Ultilities.ShowToast_short(getApplicationContext(), error.toString());
             }
         });
 
@@ -311,8 +344,13 @@ public class MainActivity extends AppCompatActivity {
         navExpandableListView = findViewById(R.id.elv_manHinhChinh);
         listThuongHieu = new ArrayList<ThuongHieu>();
         sanPhamArrayList = new ArrayList<>();
+        edtSearch = findViewById(R.id.edtSearch);
+        imgSearch = findViewById(R.id.imgSearch);
 
-        loginAccount = (Account) getIntent().getSerializableExtra("loginAccount");
+
+        if(loginAccount==null)
+            loginAccount = (Account) getIntent().getSerializableExtra("loginAccount");
+
         sanPhamAdapter = new SanPhamAdapter(getApplicationContext(), sanPhamArrayList);
         recyclerViewManHinhChinh.setHasFixedSize(true);
         //2 cot

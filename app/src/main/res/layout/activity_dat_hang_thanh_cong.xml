@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.DatHangThanhCongActivity"
+    android:gravity="center"
+    android:background="@color/primary_color">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_corner"
+        android:layout_marginHorizontal="10dp"
+
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:text="ĐẶT HÀNG THÀNH CÔNG"
+                android:textStyle="bold"
+                android:textColor="@color/primary_text"/>
+            <ImageView
+                android:layout_marginStart="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_checked"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp">
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chúng tôi đã nhận được đơn đặt hàng của bạn và sẽ sớm giao cho đơn vị vận chuyển."
+                android:textSize="22sp"
+                android:lineSpacingExtra="10sp"
+                android:layout_marginBottom="15dp"
+                android:textColor="@color/primary_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cảm ơn bạn đã lựa chọn Laptop Hooli."
+                android:textSize="22sp"
+                android:lineSpacingExtra="10sp"
+                android:textColor="@color/primary_text"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnTCTroVeTrangChinh"
+            android:textColor="@color/primary_color"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/primary_color"
+            android:textSize="24sp"
+            android:paddingVertical="10dp"
+            android:layout_marginTop="150dp"
+            android:text="Trở về trang chính"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+</LinearLayout>

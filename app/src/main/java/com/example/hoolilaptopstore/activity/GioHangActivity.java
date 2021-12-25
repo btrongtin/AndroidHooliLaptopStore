@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import com.example.hoolilaptopstore.R;
 import com.example.hoolilaptopstore.adapter.GioHangAdapter;
+import com.example.hoolilaptopstore.model.Account;
 import com.example.hoolilaptopstore.util.CheckConnection;
+import com.example.hoolilaptopstore.util.Ultilities;
 
 import java.text.DecimalFormat;
 
@@ -27,6 +29,7 @@ public class GioHangActivity extends AppCompatActivity {
     Button btnThanhToan, btnTiepTucMua;
     Toolbar toolbarGioHang;
     GioHangAdapter gioHangAdapter;
+    //Account loginAccount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,15 +40,16 @@ public class GioHangActivity extends AppCompatActivity {
         checkData();
         tinhTien();
         actionLongClickItem(); //longclick => xóa sp
-        actionBtnDatHang();
+        actionBtn();
 
     }
 
-    private void actionBtnDatHang() {
+    private void actionBtn() {
         btnTiepTucMua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
                 startActivity(intent);
             }
         });
@@ -58,7 +62,7 @@ public class GioHangActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else{
-                    CheckConnection.ShowToast_short(getApplicationContext(), "Giỏ hàng của bạn đang trống.");
+                    Ultilities.ShowToast_short(getApplicationContext(), "Giỏ hàng của bạn đang trống.");
                 }
             }
         });

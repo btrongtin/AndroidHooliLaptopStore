@@ -22,7 +22,5 @@ public class CheckConnection {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
-    public  static  void ShowToast_short(Context context,String thongbao){
-        Toast.makeText(context,thongbao, Toast.LENGTH_SHORT).show();
-    }
+
 }
